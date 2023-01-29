@@ -20,7 +20,7 @@ public class Comment {
 
     @Id
     @GeneratedValue
-    private int Id;
+    private Long Id;
 
     @NotBlank
     private String content;
