@@ -6,6 +6,9 @@ datasources:
     driver-class-name: org.postgresql.Driver
     db-type: postgres
     dialect: POSTGRES
+    url: ${JDBC_URL:`jdbc:postgresql://localhost:5432/micronaut_dev`}
+    username: backend
+    password: backend_dev
 jpa:
   default:
     properties:
