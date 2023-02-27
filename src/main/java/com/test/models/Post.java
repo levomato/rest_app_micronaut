@@ -1,6 +1,8 @@
 package com.test.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,9 +35,12 @@ public class Post {
 
     @NotNull
     @Builder.Default
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @NotNull
+    @Builder.Default
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Builder.Default
@@ -44,6 +49,6 @@ public class Post {
     @Builder.Default
     private int dislikes = 0;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy= "post", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
 }
