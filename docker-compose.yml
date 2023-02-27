@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: backend_dev
+      POSTGRES_DB: micronaut_dev
+      POSTGRES_USER: backend
+    volumes:
+      - ./data:/var/lib/postgresql
+      - ./pg-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - database-network
+  backend:
+    image: rest_app_micronaut
+    ports:
+      - 8080:8080
+    links:
+      - postgres
+    environment:
+      JDBC_URL: jdbc:postgresql://postgres:5432/micronaut_dev
+      JDBC_HOST: postgres
+      JDBC_PORT: 5432
+      JDBC_DRIVER: org.postgresql.Driver
+      JDBC_PASSWORD: backend_dev
+      JDBC_USER: backend
+    depends_on:
+      - postgres
+    networks:
+      - database-network
+
+networks:
+  database-network:
+    driver: bridge
+    external: false
+
